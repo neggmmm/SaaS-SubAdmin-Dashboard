@@ -3,21 +3,11 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 
-const users: User[] = [
-    {
-        id: '1',
-        username: 'negm',
-        phoneNumber: '01063681459',
-        password: '123'
-    }
-];
 @Injectable()
 export class UserService {
-    constructor
-        (
-            @InjectRepository(User)
-            private readonly userRepo: Repository<User>,
-        ) { }
+    constructor(
+        @InjectRepository(User)
+        private readonly userRepo: Repository<User>) {}
     async getAllUsers(): Promise<User[]> {
         return this.userRepo.find();
     }
