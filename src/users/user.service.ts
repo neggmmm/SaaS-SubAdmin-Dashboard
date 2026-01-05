@@ -1,38 +1,34 @@
-import { User } from "@/users/entities/user.schema";
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from "typeorm";
+import { User } from "./entities/user.schema";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
+import { CreateUserDto } from "./dto/create-user.dto";
 
 @Injectable()
 export class UserService {
     constructor(
-        @InjectRepository(User)
-        private readonly userRepo: Repository<User>) {}
-    async getAllUsers(): Promise<User[]> {
-        return this.userRepo.find();
-    }
-    async findUserById(userId: string): Promise<User | null> {
-        return this.userRepo.findOne({ where: { id: userId } });
-    }
-    async findUserByUsername(username: string): Promise<User | null> {
-        return this.userRepo.findOne({ where: { username } });
-    }
-    async createUser(userData: Partial<User>): Promise<User> {
-        const user = this.userRepo.create(userData);
-        return this.userRepo.save(user);
-    }
-    async updateUser(
-        userId: string,
-        updateData: Partial<User>,
-    ): Promise<User | null> {
-        const user = await this.findUserById(userId);
-        if (!user) return null;
+        @InjectModel(User.name)
+        private readonly userModel: Model<User>,
+    ) {}
 
-        Object.assign(user, updateData);
-        return this.userRepo.save(user);
+    async getAllUsers(): Promise<User[]> {
+        return this.userModel.find().exec();
     }
-    async deleteUser(userId: string): Promise<boolean> {
-        const result = await this.userRepo.delete(userId);
-        return result.affected === 1;
+
+    async getUserById(id: string): Promise<User | null> {
+        return this.userModel.findById(id).exec();
+    }
+
+    async createUser(userData: CreateUserDto): Promise<User> {
+        const newUser = new this.userModel(userData);
+        return newUser.save();
+    }
+    async updateUser(id: string, updateData: Partial<User>): Promise<User | null> {
+        return this.userModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
+    }
+
+    async deleteUser(id: string): Promise<boolean> {
+        const result = await this.userModel.findByIdAndDelete(id).exec();
+        return !!result;
     }
 }
