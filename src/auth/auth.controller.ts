@@ -4,10 +4,15 @@ import { RegisterDto } from "./dto/register.dto";
 import { AuthService } from "./auth.service";
 @Controller('auth')
 export class AuthController {
+    constructor(private readonly authService : AuthService) {}
     @HttpCode(HttpStatus.OK)
     @Post('login')
     login(@Body() dto: LoginDto) {
-        return this.authService.login(dto);
+        try{
+            return this.authService.login(dto);
+        }catch(error){
+            throw error;
+        }
     }
     
     @Post('register')
