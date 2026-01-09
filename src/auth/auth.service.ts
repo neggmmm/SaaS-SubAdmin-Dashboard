@@ -3,12 +3,14 @@ import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { UserService } from "@/users/user.service";
 import { HashService } from "@/common/crypto/hash.service";
+import { TokenService } from "@/common/token/token.service";
 
 @Injectable()
 export class AuthService{
     constructor(
         private readonly userService: UserService,
         private readonly hashService: HashService,
+        private readonly tokenService: TokenService,
     ) {}
 
     async login(dto: LoginDto) {
@@ -18,7 +20,8 @@ export class AuthService{
         }
         const isMatch = await this.hashService.comparePasswords(dto.password, user.password);
         if (isMatch) {
-            return { message: 'Login successful' };
+            const token = await this.tokenService.generateToken(user._id.toString());
+            return { message: 'Login successful', token };
         } else {
             return { message: 'Invalid credentials' };
         }

@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { User } from "./entities/user.schema";
+import { User, UserDocument } from "./entities/user.schema";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { CreateUserDto } from "./dto/create-user.dto";
@@ -8,25 +8,25 @@ import { CreateUserDto } from "./dto/create-user.dto";
 export class UserService {
     constructor(
         @InjectModel(User.name)
-        private readonly userModel: Model<User>,
+        private readonly userModel: Model<UserDocument>,
     ) {}
 
-    async getAllUsers(): Promise<User[]> {
+    async getAllUsers(): Promise<UserDocument[]> {
         return this.userModel.find().exec();
     }
 
-    async findUserByPhoneNumber(phoneNumber: string): Promise<User | null> {
+    async findUserByPhoneNumber(phoneNumber: string): Promise<UserDocument | null> {
         return this.userModel.findOne({ phoneNumber }).exec();
     }
-    async getUserById(id: string): Promise<User | null> {
+    async getUserById(id: string): Promise<UserDocument | null> {
         return this.userModel.findById(id).exec();
     }
 
-    async createUser(userData: CreateUserDto): Promise<User> {
+    async createUser(userData: CreateUserDto): Promise<UserDocument> {
         const newUser = new this.userModel(userData);
         return newUser.save();
     }
-    async updateUser(id: string, updateData: Partial<User>): Promise<User | null> {
+    async updateUser(id: string, updateData: Partial<User>): Promise<UserDocument | null> {
         return this.userModel.findByIdAndUpdate(id, updateData, { new: true }).exec();
     }
 
