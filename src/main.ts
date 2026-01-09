@@ -1,10 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import  env  from '../config/env';
-
+import { ConfigService } from '@nestjs/config';
+import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = env.port ? Number(env.port) : 3000;
+  const configService = app.get(ConfigService);
+
+  app.use(cookieParser());
+  
+  const port = configService.get<number>('PORT') || 3000;
   await app.listen(port);
 }
 bootstrap();
