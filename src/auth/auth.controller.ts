@@ -28,6 +28,19 @@ export class AuthController {
     async register(@Body() dto: RegisterDto) {
         return this.authService.register(dto);
     }
+    
+    @UseGuards(AuthGuard)
+    @Post('logout')
+    @HttpCode(HttpStatus.OK)
+    async Logout(@Res({ passthrough: true }) res: Response) {
+        res.clearCookie('access_token',{
+            httpOnly:true,
+            secure:false,
+            sameSite:'lax'
+        })
+        return {message:"Logged out successfully"}
+    }
+
     @UseGuards(AuthGuard)
     @Get('me')
     getMe(@Req() req: Request) {
