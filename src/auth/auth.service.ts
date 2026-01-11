@@ -33,13 +33,13 @@ export class AuthService{
         const hashedPassword = await this.hashService.hashPassword(dto.password);
         await this.userService.createUser({
             phoneNumber: dto.phoneNumber,
+            email: dto.email,
             username: dto.username,
             password: hashedPassword,
+            role:"Customer",
         });
-        // Implement registration logic here
         return { message: 'Registration successful' };
     }
-
     async getMe(userId: string) {
         const user = await this.userService.getUserById(userId);
         if(!user){
@@ -48,6 +48,8 @@ export class AuthService{
         return{
             phoneNumber: user.phoneNumber,
             username: user.username,
+            email: user.email,
+            role: user.role,
         }
     }
 }
