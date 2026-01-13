@@ -1,4 +1,4 @@
-import { User, UserSchema} from "@/users/entities/user.schema";
+import { SubAdmin,SubAdminSchema } from "@/users/entities/user.schema";
 import { Module } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -7,7 +7,7 @@ import { UserController } from "./user.controller";
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        MongooseModule.forFeature([{ name: SubAdmin.name, schema: SubAdminSchema }]),
     ],
     controllers:[UserController],
     providers:[UserService],

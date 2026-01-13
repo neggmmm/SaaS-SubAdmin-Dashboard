@@ -36,7 +36,6 @@ export class AuthService{
             email: dto.email,
             username: dto.username,
             password: hashedPassword,
-            role:"Customer",
         });
         return { message: 'Registration successful' };
     }
@@ -49,7 +48,6 @@ export class AuthService{
             phoneNumber: user.phoneNumber,
             username: user.username,
             email: user.email,
-            role: user.role,
         }
     }
 }
