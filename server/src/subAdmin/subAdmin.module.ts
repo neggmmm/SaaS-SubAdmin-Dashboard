@@ -8,6 +8,7 @@ import { SubAdminService } from "./subAdmin.service";
     imports: [MongooseModule.forFeature([{name: SubAdmin.name, schema: subAdminSchema}])],
     controllers: [SubAdminController],
     providers: [SubAdminService],
+    exports: [SubAdminService],
 })
 
 export class SubAdminModule {}
