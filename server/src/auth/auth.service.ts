@@ -1,20 +1,20 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
-import { UserService } from "@/users/user.service";
 import { HashService } from "@/common/crypto/hash.service";
 import { TokenService } from "@/common/token/token.service";
+import { SubAdminService } from "@/subAdmin/subAdmin.service";
 
 @Injectable()
 export class AuthService{
     constructor(
-        private readonly userService: UserService,
+        private readonly subAdminService: SubAdminService,
         private readonly hashService: HashService,
         private readonly tokenService: TokenService,
     ) {}
 
     async login(dto: LoginDto) {
-        const user = await this.userService.findUserByPhoneNumber(dto.phoneNumber);
+        const user = await this.subAdminService.findSubAdminByPhoneNumber(dto.phoneNumber);
         if(!user){
             throw new UnauthorizedException();
         }
@@ -26,12 +26,12 @@ export class AuthService{
         return {token: this.tokenService.generateToken(user._id.toString())};
     }
     async register(dto: RegisterDto) {
-        const existingUser = await this.userService.findUserByPhoneNumber(dto.phoneNumber);
+        const existingUser = await this.subAdminService.findSubAdminByPhoneNumber(dto.phoneNumber);
         if (existingUser) {
             return { message: 'User already exists' };
         }
         const hashedPassword = await this.hashService.hashPassword(dto.password);
-        await this.userService.createUser({
+        await this.subAdminService.createSubAdmin({
             phoneNumber: dto.phoneNumber,
             email: dto.email,
             username: dto.username,
@@ -40,7 +40,7 @@ export class AuthService{
         return { message: 'Registration successful' };
     }
     async getMe(userId: string) {
-        const user = await this.userService.getUserById(userId);
+        const user = await this.subAdminService.getSubAdminById(userId);
         if(!user){
             throw new UnauthorizedException();
         }
