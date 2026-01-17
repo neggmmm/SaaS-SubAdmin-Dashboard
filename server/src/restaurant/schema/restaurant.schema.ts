@@ -1,6 +1,8 @@
 import { User } from "@/users/user.schema";
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Types } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
+
+export type RestaurantDocument = HydratedDocument<Restaurant>;
 
 @Schema({timestamps: true})
 
