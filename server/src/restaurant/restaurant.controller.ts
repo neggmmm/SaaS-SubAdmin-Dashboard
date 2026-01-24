@@ -2,35 +2,34 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/
 import { CreateRestaurantDto } from "./dto/create-restaurant.dto";
 import { RestaurantService } from "./restaurant.service";
 
-@Controller()
-
-export class RestaurantController{
+@Controller('restaurants')
+export class RestaurantController {
     constructor(
-        private readonly restaurantService : RestaurantService
-    ){}
+        private readonly restaurantService: RestaurantService
+    ) {}
 
     @Post()
-    createRestaurant(@Body() dto:CreateRestaurantDto ,@Req() req: Request,){
-        return this.restaurantService.createRestaurant(dto)
+    createRestaurant(@Body() dto: CreateRestaurantDto, @Req() req: Request) {
+        return this.restaurantService.createRestaurant(dto);
     }
 
     @Get()
-    getAllRestaurants(){
-        return this.restaurantService.getAllRestaurants()
+    getAllRestaurants() {
+        return this.restaurantService.getAllRestaurants();
     }
 
     @Get(':id')
-    getRestaurantById(@Param('id') id:string){
-        return this.restaurantService.getRestaurantById(id)
+    getRestaurantById(@Param('id') id: string) {
+        return this.restaurantService.getRestaurantById(id);
     }
 
     @Patch(':id')
-    updateRestaurant(@Param('id') id:string, @Body() updateData: Partial<CreateRestaurantDto>){
-        return this.restaurantService.updateRestaurant(id,updateData)
+    updateRestaurant(@Param('id') id: string, @Body() updateData: Partial<CreateRestaurantDto>) {
+        return this.restaurantService.updateRestaurant(id, updateData);
     }
 
     @Delete(":id")
-    deleteRestaurant(@Param('id') id:string){
-        return this.restaurantService.DeleteRestaurant(id)
+    deleteRestaurant(@Param('id') id: string) {
+        return this.restaurantService.deleteRestaurant(id);
     }
 }
