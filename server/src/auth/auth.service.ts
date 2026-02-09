@@ -3,7 +3,7 @@ import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { HashService } from "@/common/crypto/hash.service";
 import { TokenService } from "@/common/token/token.service";
-import { SubAdminService } from "@/subAdmin/subAdmin.service";
+import { SubAdminService } from "@/superAdmin/superAdmin.service";
 
 @Injectable()
 export class AuthService{

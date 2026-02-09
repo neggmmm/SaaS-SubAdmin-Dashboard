@@ -3,7 +3,7 @@ import { AuthService } from "./auth.service";
 import { AuthController } from "./auth.controller";
 import { HashModule } from "@/common/crypto/hash.module";
 import { TokenModule } from "@/common/token/token.module";
-import { SubAdminModule } from "@/subAdmin/subAdmin.module";
+import { SubAdminModule } from "@/superAdmin/subAdmin.module";
 
 @Module({
     imports: [SubAdminModule, HashModule,TokenModule],

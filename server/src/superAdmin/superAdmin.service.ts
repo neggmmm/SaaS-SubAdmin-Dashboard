@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { SubAdmin, SubAdminDocument } from "./subAdmin.schema";
+import { SubAdmin, SubAdminDocument } from "./superAdmin.schema";
 import { Model } from "mongoose";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Controller, Get, Patch, Post } from "@nestjs/common";
-import { SubAdminService } from "./subAdmin.service";
+import { SubAdminService } from "./superAdmin.service";
 
 
 @Controller('sub-admins')
