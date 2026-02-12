@@ -11,4 +11,4 @@ import { SubAdminService } from "./superAdmin.service";
     exports: [SubAdminService],
 })
 
-export class SubAdminModule {}
+export class SuperAdminModule {}
